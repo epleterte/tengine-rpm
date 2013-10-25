@@ -21,3 +21,10 @@ trap "rm -rf ${build_dir} 2>/dev/null || true" EXIT
 make install DESTDIR=${build_dir}
 
 fpm -s dir -t rpm -n tengine -v ${build_version}_git~${git_commit} -C ${build_dir} etc usr
+
+print='echo'
+which figlet >/dev/null && print='figlet'
+which toilet >/dev/null && print='figlet'
+
+echo "> Built RPM of Tengine ${build_version}"
+$print "YAY"
