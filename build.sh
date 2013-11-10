@@ -4,12 +4,29 @@
 # Christian Bryn 2013
 # Do what the fuck you want.
 
-git clone git://github.com/alibaba/tengine.git
+while getopts th o
+do
+  case $o in
+    h)
+      print_usage ; exit ;;
+    t)
+      # do fresh clone
+      temp_build="true" ;;
+  esac
+done
+shift $(($OPTIND-1))
 
+yum install -y pcre-devel openssl-devel jemalloc-devel rpmdevtools
 
-yum install pcre-devel openssl-devel jemalloc-devel rpmdevtools
-
-cd tengine
+if [ "${temp_build}" == "true" ]
+then
+  tmp_clone_dir=$( mktemp -d )
+  ( cd ${tmp_clone_dir} && git clone git://github.com/alibaba/tengine.git )
+  cd ${tmp_clone_dir}/tengine
+else
+  [ -d .git ] || { echo "This does not look like a GIT repo"; echo "Change dir or use -t ?"; exit 1; }
+  ## cd tengine
+fi
 
 # version number like this: take latest tag, add git commit
 build_version=$( git tag | sort | tail -n 1 | awk -F "-" '{ print $NF }')
