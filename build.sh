@@ -15,12 +15,15 @@ EOF
 
 # defaults
 temp_build="false"
+new_build="false"
 
-while getopts th o
+while getopts hnt o
 do
   case $o in
     h)
       print_usage ; exit ;;
+    n)
+      new_build="true" ;;
     t)
       # do fresh clone
       temp_build="true" ;;
@@ -36,8 +39,11 @@ then
   ( cd ${tmp_clone_dir} && git clone git://github.com/alibaba/tengine.git )
   cd ${tmp_clone_dir}/tengine
 else
-  [ -d .git ] || { echo "This does not look like a GIT repo"; echo "Change dir or use -t ?"; exit 1; }
-  ## cd tengine
+  if [[ "${new_build}" == "true" ]]; then
+    git clone git://github.com/alibaba/tengine.git
+    cd tengine
+  fi
+  [ -d .git ] || { echo "This does not look like a GIT repo"; echo "Change dir or use -n (new) or -t (temp dir build) ?"; exit 1; }
 fi
 
 # version number like this: take latest tag, add git commit
@@ -53,7 +59,7 @@ fpm -s dir -t rpm -n tengine -v ${build_version}_git~${git_commit} -C ${build_di
 
 print='echo'
 which figlet >/dev/null && print='figlet'
-which toilet >/dev/null && print='figlet'
+which toilet >/dev/null && print='toilet'
 
 echo "> Built RPM of Tengine ${build_version}"
 $print "YAY"
