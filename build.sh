@@ -2,7 +2,16 @@
 # build rpm packages of tengine from tengine github repo
 # simple, probably wip
 # Christian Bryn 2013
-# Do what the fuck you want.
+
+function print_usage {
+  cat <<EOF
+Usage: ${0} [-h|-t]
+
+  -h    This helpful text.
+  -t    Fresh clone (build in temp dir)
+
+EOF
+}
 
 while getopts th o
 do
