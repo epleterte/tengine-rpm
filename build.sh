@@ -13,6 +13,9 @@ Usage: ${0} [-h|-t]
 EOF
 }
 
+# defaults
+temp_build="false"
+
 while getopts th o
 do
   case $o in
