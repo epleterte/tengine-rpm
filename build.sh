@@ -3,6 +3,11 @@
 # simple, probably wip
 # Christian Bryn 2013-2015
 
+function in_path {
+  which $1 >/dev/null 2>&1 && return 0
+  return 1
+}
+
 function print_usage {
   cat <<EOF
 Usage: ${0} [-h|-t]
@@ -12,6 +17,9 @@ Usage: ${0} [-h|-t]
 
 EOF
 }
+
+in_path yum || { echo "no yum installed or not in path ... ?"; exit 1; }
+in_path fpm || { echo "fpm not in path or not installed": exit 1; }
 
 # defaults
 temp_build="false"
