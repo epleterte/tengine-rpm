@@ -1,7 +1,7 @@
 #!/bin/bash -ue                                   
 # build rpm packages of tengine from tengine github repo
 # simple, probably wip
-# Christian Bryn 2013
+# Christian Bryn 2013-2015
 
 function print_usage {
   cat <<EOF
